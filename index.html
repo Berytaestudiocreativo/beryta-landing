@@ -1139,7 +1139,7 @@ footer{
       <p class="contacto-sub">Completa el formulario y empecemos a construir una identidad que se vea premium y completamente fuera de lo común.</p>
     </div>
     <div class="contact-form reveal" id="formWrap">
-      <form id="contactForm" action="https://formspree.io/f/xvzylqdq" method="POST">
+      <form id="contactForm" action="https://formspree.io/f/xvzylqdq" method="POST" onsubmit="return handleSubmit(event)">
         <div class="form-grid">
           <div class="form-group">
             <label>Nombre</label>
@@ -1354,4 +1354,28 @@ window.addEventListener('scroll',()=>{
 })();
 </script>
 </body>
-</html>
+</html><script>
+function handleSubmit(e) {
+  e.preventDefault();
+  const form = e.target;
+  const formData = new FormData(form);
+  
+  fetch(form.action, {
+    method: form.method,
+    body: formData,
+    headers: {
+      'Accept': 'application/json'
+    }
+  }).then(response => {
+    if (response.ok) {
+      alert('¡Mensaje enviado! Nos pondremos en contacto pronto.');
+      form.reset();
+    }
+  }).catch(error => {
+    alert('Error al enviar. Intenta de nuevo.');
+    console.error('Error:', error);
+  });
+  
+  return false;
+}
+</script>
